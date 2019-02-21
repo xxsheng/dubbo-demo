@@ -1,0 +1,131 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.xiuqiang.xia.dubbo.demo</groupId>
+	<artifactId>Dubbo-Demo</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+	<name>Dubbo-Demo</name>
+	<description>demo Dubbo project for Spring boot (parent)</description>
+
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.0.6.RELEASE</version>
+		<relativePath /> <!-- lookup parent from repository -->
+	</parent>
+
+	<url>http://maven.apache.org</url>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<java.version>1.8</java.version>
+
+		<!-- 在properties中统一控制依赖包的版本，更清晰 -->
+		<!-- <dubbo.version>2.5.3</dubbo.version> -->
+		<spring.boot.web>2.0.6.RELEASE</spring.boot.web>
+		<dubbo.starter.version>0.2.0</dubbo.starter.version>
+		<zk.version>3.4.13</zk.version>
+		<zkclient.version>0.1</zkclient.version>
+		<lombk.version>1.16.18</lombk.version>
+		<curator-framework.version>4.0.1</curator-framework.version>
+	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+			<!-- 删除spring-boot-starter和spring-boot-starter-test -->
+			<!-- 因为parent中继承的祖先中已经有了，并且一般dependencyManagement 管理的依赖都要写版本号 -->
+			<!-- <dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-starter</artifactId>
+			</dependency> -->
+			
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-starter-web</artifactId>
+				<version>${spring.boot.web}</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-test</artifactId>
+				<scope>test</scope>
+			</dependency>
+			
+			<!-- 新增后续dubbo项目中所需要的依赖，dubbo zk -->
+<!-- 			<dependency>
+				<groupId>com.alibaba</groupId>
+				<artifactId>dubbo</artifactId>
+				<version>${dubbo.version}</version>使用properties中配置的版本号
+				<exclusions> 排除依赖
+					<exclusion>
+						<groupId>org.springframework</groupId>
+						<artifactId>spring</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency> -->
+			
+			<!-- https://mvnrepository.com/artifact/com.alibaba.boot/dubbo-spring-boot-starter -->
+			<dependency>
+				<groupId>com.alibaba.boot</groupId>
+				<artifactId>dubbo-spring-boot-starter</artifactId>
+				<version>${dubbo.starter.version}</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>org.apache.curator</groupId>
+				<artifactId>curator-framework</artifactId>
+				<version>${curator-framework.version}</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>org.apache.zookeeper</groupId>
+				<artifactId>zookeeper</artifactId>
+				<version>${zk.version}</version>
+				<exclusions><!-- 排除依赖 -->
+					<exclusion>
+						<groupId>org.slf4j</groupId>
+						<artifactId>slf4j-log4j12</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>log4j</groupId>
+						<artifactId>log4j</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+			
+			<dependency>
+				<groupId>com.github.sgroschupf</groupId>
+				<artifactId>zkclient</artifactId>
+				<version>${zkclient.version}</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>org.projectlombok</groupId>
+				<artifactId>lombok</artifactId>
+				<version>${lombok.version}</version>
+				<scope>provided</scope>
+			</dependency>
+			
+		</dependencies>
+	</dependencyManagement>
+
+	<modules>
+		<module>dubbo-demo-server</module>
+		<module>dubbo-demo-client</module>
+		<module>dubbo-demo-api</module>
+	</modules>
+	
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+</project>
